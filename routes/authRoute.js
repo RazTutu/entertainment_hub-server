@@ -3,6 +3,7 @@ const router = require("express").Router();
 
 //const passportSetup = require("../passport");
 const CLIENT_URL = "http://localhost:3000";
+const passportSetup = require("../passport")
 
 // this route will show google login choice
 router.get("/google", passport.authenticate("google", {
@@ -17,7 +18,7 @@ router.get("/google/callback", passport.authenticate("google"),
 );
 
 router.get("/login/success", (req, res) => {
-  // console.log("login req.user ==> ", req.user)
+  console.log("login req.user ==> ", req.user)
   if (req.isAuthenticated()) {
     res.json(req.user)
   } else {
