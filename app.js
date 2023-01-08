@@ -6,6 +6,7 @@ const passport = require("passport");
 require("dotenv").config();
 // routes
 const AuthRoute = require("./routes/authRoute")
+const GamesRoute = require("./routes/gamesRoute");
 
 // app config
 const app = express();
@@ -37,8 +38,18 @@ app.use(passport.session())
 
 // ------------- routes ---------------
 app.get("/", (req, res) => {
-  res.status(200).send("hello here")
+  res.status(200).send("hello here");
 });
+app.use("/games", GamesRoute);
+
+app.get("/protected", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.status(200).send('you can use this protected route because you are authenticated');
+  } else {
+    res.status(500).send('you can not use this route because you are not authenticated');
+  }
+});
+
 app.use("/auth", AuthRoute);
 
 // listener

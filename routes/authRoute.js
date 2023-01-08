@@ -3,7 +3,7 @@ const router = require("express").Router();
 
 //const passportSetup = require("../passport");
 const CLIENT_URL = "http://localhost:3000";
-const passportSetup = require("../passport")
+const passportSetup = require("../middleware/passport")
 
 // this route will show google login choice
 router.get("/google", passport.authenticate("google", {
