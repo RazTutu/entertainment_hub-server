@@ -29,7 +29,7 @@ app.use(cors({
 
 app.use(cookieSession({
   maxAge: 24*60*60*1000, // one day
-  keys: ["someBigAndRandomKey394r9230fj"]  // encrypt_id
+  keys: [process.env.COOKIE_KEY]  // encrypt_id
 }));
 
 // initialize passport
