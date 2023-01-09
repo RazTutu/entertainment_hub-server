@@ -5,10 +5,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     unique: true,
   },
-  emailId: String,
   username: String,
   avatar: String,
-  admin: Boolean,
+  googleId: String,
 });
 
-module.exports = mongoose.model("user", UserSchema)
+module.exports = mongoose.model("user", UserSchema);

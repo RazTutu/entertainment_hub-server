@@ -1,4 +1,3 @@
-// https://www.passportjs.org/packages/passport-google-oauth20/
 const passport = require("passport");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 require("dotenv").config()
@@ -11,23 +10,25 @@ passport.use(
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:4000/auth/google/callback"
   },
-  function(accessToken, refreshToken, profile, done) {
-    console.log('profile is', profile);
+  async function(accessToken, refreshToken, profile, done) {
     const username = profile.displayName;
-    const emailId = profile.id;
+    const googleId = profile.id;
     const email = profile.emails[0].value;
     const avatar = profile.photos[0].value;
-
-    Users.create({username:username, email:email, avatar:avatar, emailId:emailId, admin:false})
-      .then((data) => {
-        console.log("user created: ", data);
-        // done() - go on the next stage
-        done(null, profile);
-      })
-      .catch((err) => {
-        console.log(err);
-        done(null, profile);
-      })
+    const foundUser = await Users.findOne({email: email});
+    if(foundUser){
+      // user already exist
+    } else {
+      // insert a new user into the database
+      const user = new Users({
+        email,
+        username,
+        avatar,
+        googleId
+      });
+      const response = await user.save();
+    }
+    done(null, profile);
   }
 ));
 
